@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../state_management/redux/actions/actions.dart';
+
+import '../state_management/redux/reducers/app_state_reducer.dart';
 
 ///Manages App Authentication
 class AppAuth {
@@ -48,7 +51,8 @@ class AppAuth {
   }
 
   Future<void> loginAction(Function notifyAction) async {
-    isBusy = true;
+    store.dispatch(SetIsBusy(isBusy: true));
+
     _errorMessage = '';
 
     try {
@@ -64,16 +68,15 @@ class AppAuth {
       await _secureStorage.write(
           key: 'refresh_token', value: result.refreshToken);
 
-      isBusy = false;
-      isLoggedIn = true;
+      store.dispatch(SetIsBusy(isBusy: false));
+      store.dispatch(SetLoggedIn(isLoggedIn: true));
+
       _name = idToken['name'];
       _picture = profile['picture'];
       notifyAction();
     } on Exception catch (e, s) {
       print('login error: $e - stack: $s');
 
-      isBusy = false;
-      isLoggedIn = false;
       _errorMessage = e.toString();
     }
   }
