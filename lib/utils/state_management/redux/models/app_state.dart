@@ -1,12 +1,13 @@
 import 'auth_state.dart';
 
 class AppState {
-  AuthState authState;
+  final AuthState authState;
 
   //constructor
   AppState({required this.authState});
 
-  AppState.initialState() : authState = AuthState();
+  //named constructor
+  AppState.initialState() : authState = AuthState.defaultState();
 
   @override
   String toString() {

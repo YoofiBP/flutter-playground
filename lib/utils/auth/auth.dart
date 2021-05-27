@@ -16,16 +16,6 @@ class AppAuth {
       'com.auth0.flutterdemo://login-callback';
   static const String _AUTH0_ISSUER = 'https://$_AUTH0_DOMAIN';
 
-  // final Function notifyAction;
-
-  // AppAuth(this.notifyAction);
-
-  bool isBusy = false;
-  bool isLoggedIn = false;
-  String _errorMessage = '';
-  String _name = '';
-  dynamic _picture;
-
   final FlutterAppAuth _appAuth = FlutterAppAuth();
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
@@ -50,11 +40,7 @@ class AppAuth {
     }
   }
 
-  Future<void> loginAction(Function notifyAction) async {
-    store.dispatch(SetIsBusy(isBusy: true));
-
-    _errorMessage = '';
-
+  Future<Map<String, String>> loginAction() async {
     try {
       final result = await _appAuth.authorizeAndExchangeCode(
               AuthorizationTokenRequest(_AUTH0_CLIENT_ID, _AUTH0_REDIRECT_URI,
@@ -68,32 +54,29 @@ class AppAuth {
       await _secureStorage.write(
           key: 'refresh_token', value: result.refreshToken);
 
-      store.dispatch(SetIsBusy(isBusy: false));
-      store.dispatch(SetLoggedIn(isLoggedIn: true));
-
-      _name = idToken['name'];
-      _picture = profile['picture'];
-      notifyAction();
+      return {'username': idToken['name'], 'picture': profile['picture']};
     } on Exception catch (e, s) {
       print('login error: $e - stack: $s');
-
-      _errorMessage = e.toString();
+      rethrow;
     }
   }
 
   void logoutAction() async {
     await _secureStorage.delete(key: 'refresh_token');
 
-    isLoggedIn = false;
-    isBusy = false;
+    store.dispatch(SetLoggedIn(isLoggedIn: false));
+    store.dispatch(SetIsBusy(isBusy: false));
+    store.dispatch(NavigationAction(route: '/'));
   }
 
   void initAction() async {
     final storedRefreshToken = await _secureStorage.read(key: 'refresh_token');
 
+    print(storedRefreshToken);
+
     if (storedRefreshToken == null) return;
 
-    isBusy = true;
+    store.dispatch(SetIsBusy(isBusy: true));
 
     try {
       final response = await _appAuth.token(TokenRequest(
@@ -109,10 +92,11 @@ class AppAuth {
 
       _secureStorage.write(key: 'refresh_token', value: response.refreshToken);
 
-      isBusy = false;
-      isLoggedIn = true;
-      _name = idToken['name'];
-      _picture = profile['picture'];
+      store.dispatch(SetIsBusy(isBusy: false));
+      store.dispatch(SetLoggedIn(isLoggedIn: true));
+
+      store.dispatch(
+          SetUserInfo(username: idToken['name'], picture: profile['picture']));
     } on Exception catch (e, s) {
       print('error on refresh token: $e - stack: $s');
       logoutAction();
