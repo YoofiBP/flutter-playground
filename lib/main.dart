@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'containers/login_container.dart';
 
+import 'containers/login_container.dart';
+import 'containers/todolist_container.dart';
 import 'utils/routing.dart';
 import 'utils/state_management/redux/reducers/app_state_reducer.dart';
 import 'views/screens/settings_screen.dart';
-import 'views/screens/todolist_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           Routes.home: (context) => LoginContainer(),
-          Routes.todos: (context) => TodoListScreen(),
+          Routes.todos: (context) => TodoListContainer(),
           Routes.settings: (context) => SettingsScreen()
         },
       ),
