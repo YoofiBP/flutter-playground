@@ -6,15 +6,17 @@ import '../utils/auth/auth.dart';
 import '../utils/state_management/redux/actions/actions.dart';
 import '../utils/state_management/redux/models/app_state.dart';
 import '../utils/state_management/redux/models/user_info.dart';
+import '../views/screens/login_screen.dart';
 
 class LoginContainer extends StatelessWidget {
-  final ViewModelBuilder<ViewModel> builder;
-  LoginContainer({required this.builder});
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ViewModel>(
-        converter: (store) => ViewModel.create(store), builder: builder);
+        converter: (store) => ViewModel.create(store),
+        builder: (context, viewModel) => LoginScreen(
+              isBusy: viewModel.isBusy,
+              loginAction: viewModel.loginAction,
+            ));
   }
 }
 

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import '../containers/login_container.dart';
 
 class LoginScreen extends StatefulWidget {
+  final bool isBusy;
+  final void Function() loginAction;
+
+  LoginScreen({required this.isBusy, required this.loginAction});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -9,9 +13,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
-  Widget build(BuildContext context) {
-    return LoginContainer(
-      builder: (context, viewModel) => Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,
         body: Form(
             child: Padding(
@@ -24,10 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
-                        child: viewModel.isBusy
+                        child: widget.isBusy
                             ? CircularProgressIndicator()
                             : ElevatedButton(
-                                onPressed: viewModel.loginAction,
+                                onPressed: widget.loginAction,
                                 child: Text('Login')),
                       )),
                     ],
@@ -36,7 +38,5 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             key: _formKey),
-      ),
-    );
-  }
+      );
 }

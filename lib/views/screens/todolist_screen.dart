@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_todo_list/containers/todolist_container.dart';
+import '../../containers/todolist_container.dart';
 
 class TodoListScreen extends StatefulWidget {
   @override
@@ -13,6 +13,7 @@ class _TodoScreenState extends State<TodoListScreen> {
     {'title': 'Eat food', 'completed': true},
     {'title': 'Eat food', 'completed': true}
   ];
+
   @override
   Widget build(BuildContext context) {
     return TodoListContainer(
