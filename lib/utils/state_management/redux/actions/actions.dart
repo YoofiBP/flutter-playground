@@ -1,3 +1,5 @@
+import '../../../../models/todo.dart';
+
 class SetIsBusy {
   final bool isBusy;
 
@@ -41,4 +43,25 @@ class NavigationAction {
   String toString() {
     return 'NavigateAction{route: $route}';
   }
+}
+
+class FetchTodos {}
+
+class ReceiveTodos {
+  final List<Todo> todos;
+
+  ReceiveTodos({required this.todos});
+
+  @override
+  String toString() {
+    return 'Receive todos ${todos.toString()}';
+  }
+}
+
+class FetchTodosFailed {}
+
+class DeleteTodo {
+  final int id;
+
+  DeleteTodo({required this.id});
 }

@@ -4,6 +4,8 @@ class LoginScreen extends StatefulWidget {
   final bool isBusy;
   final void Function() loginAction;
 
+  static const routeName = '/';
+
   LoginScreen({required this.isBusy, required this.loginAction});
 
   @override

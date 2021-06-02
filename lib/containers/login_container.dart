@@ -44,9 +44,9 @@ class ViewModel {
             store.dispatch(SetUserInfo(
                 username: result['username'] as String,
                 picture: result['picture']));
-            store.dispatch(SetIsBusy(isBusy: false));
             store.dispatch(SetLoggedIn(isLoggedIn: true));
             store.dispatch(NavigationAction(route: '/todo'));
+            store.dispatch(SetIsBusy(isBusy: false));
           } on Exception catch (e, s) {
             store.dispatch(SetIsBusy(isBusy: false));
             print('login error: $e - stack: $s');

@@ -5,6 +5,7 @@ import 'containers/login_container.dart';
 import 'containers/todolist_container.dart';
 import 'utils/routing.dart';
 import 'utils/state_management/redux/reducers/app_state_reducer.dart';
+import 'views/screens/login_screen.dart';
 import 'views/screens/settings_screen.dart';
 
 void main() {
@@ -27,9 +28,9 @@ class MyApp extends StatelessWidget {
             style: ElevatedButton.styleFrom(primary: Colors.blue),
           ),
         ),
-        initialRoute: '/',
+        initialRoute: Routes.home,
         routes: {
-          Routes.home: (context) => LoginContainer(),
+          LoginScreen.routeName: (context) => LoginContainer(),
           Routes.todos: (context) => TodoListContainer(),
           Routes.settings: (context) => SettingsScreen()
         },
