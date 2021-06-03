@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../../../../models/todo.dart';
 import '../../../services/todo_service.dart';
 
@@ -15,8 +17,8 @@ class Todos {
       todos: todos ?? this.todos, isFetching: isFetching ?? this.isFetching);
 
   static Future<List<Todo>> fetchTodos(AbstractTodoService todoService) async {
-    List<dynamic> todos = await todoService.getTodos();
-    return todos.map((todo) => Todo.fromJson(todo)).toList();
+    var todos = (await todoService.getTodos());
+    return compute(parseTodos, todos);
   }
 
   static deleteTodo() {}
@@ -24,6 +26,10 @@ class Todos {
   static addTodo() {}
 
   static markCompleted() {}
+
+  static List<Todo> parseTodos(List<dynamic> todos) {
+    return todos.map((todo) => Todo.fromJson(todo)).toList();
+  }
 
   @override
   String toString() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   final bool isBusy;
@@ -32,7 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? CircularProgressIndicator()
                             : ElevatedButton(
                                 onPressed: widget.loginAction,
-                                child: Text('Login')),
+                                child: Text(
+                                    AppLocalizations.of(context)?.helloWorld ??
+                                        'Login')),
                       )),
                     ],
                   )

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class HttpClient {
@@ -11,14 +12,14 @@ class HttpClient {
     }
   }
 
-  dynamic get(String url) async {
+  Future<dynamic> get(String url) async {
     try {
       var uri = Uri.parse(url);
       var response = await http.get(uri, headers: _headers);
       if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-        // return result;
+        return compute(jsonDecode, response.body);
       } else {
+        // return result;
         throw Error();
       }
     } on Exception catch (_) {

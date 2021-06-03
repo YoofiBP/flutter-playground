@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'containers/login_container.dart';
 import 'containers/todolist_container.dart';
@@ -34,6 +36,11 @@ class MyApp extends StatelessWidget {
           Routes.todos: (context) => TodoListContainer(),
           Routes.settings: (context) => SettingsScreen()
         },
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate
+        ],
+        supportedLocales: [const Locale('en'), const Locale('es')],
       ),
     );
   }
