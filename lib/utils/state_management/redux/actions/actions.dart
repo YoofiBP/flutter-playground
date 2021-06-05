@@ -65,3 +65,16 @@ class DeleteTodo {
 
   DeleteTodo({required this.id});
 }
+
+class UpdateTodo {
+  final int id;
+  final Todo updatedTodo;
+
+  UpdateTodo({required this.id, required this.updatedTodo});
+}
+
+class AddTodo {
+  final Todo newTodo;
+
+  AddTodo({required this.newTodo});
+}

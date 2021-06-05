@@ -23,10 +23,11 @@ class Todo {
 
   Map<String, dynamic> toJson() => _$TodoToJson(this);
 
-  /* factory Todo.fromJson(Map<String, dynamic> json) {
-    return Todo(
-        id: json['id'] as int,
-        title: json['title'] as String,
-        completed: json['completed'] as bool);
-  } */
+  void toggleComplete() {
+    completed = !completed;
+  }
+
+  set setTitle(String title) {
+    this.title = title;
+  }
 }

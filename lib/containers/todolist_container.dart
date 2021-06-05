@@ -16,6 +16,7 @@ class TodoListContainer extends StatelessWidget {
               onInit: viewModel.onInit,
               todos: viewModel.todos,
               deleteTodo: viewModel.deleteTodo,
+              toggleComplete: viewModel.toggleComplete,
             ),
         converter: (store) => ViewModel.create(store));
   }
@@ -25,13 +26,15 @@ class ViewModel {
   final void Function() onSettingsPress;
   final void Function() onInit;
   final void Function(int id) deleteTodo;
+  final void Function(Todo todo) toggleComplete;
   final List<Todo> todos;
 
   ViewModel(
       {required this.onSettingsPress,
       required this.onInit,
       required this.todos,
-      required this.deleteTodo});
+      required this.deleteTodo,
+      required this.toggleComplete});
 
   factory ViewModel.create(Store<AppState> store) {
     return ViewModel(
@@ -42,6 +45,10 @@ class ViewModel {
           store.dispatch(FetchTodos());
         },
         todos: store.state.todos.todos,
+        toggleComplete: (todo) {
+          todo.toggleComplete();
+          store.dispatch(UpdateTodo(id: todo.id, updatedTodo: todo));
+        },
         deleteTodo: (id) {
           store.dispatch(DeleteTodo(id: id));
         });

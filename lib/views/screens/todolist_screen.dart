@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import '../../containers/add_todo_modal_container.dart';
 import '../../models/todo.dart';
 import '../components/todo_item.dart';
 
@@ -6,12 +9,14 @@ class TodoListScreen extends StatefulWidget {
   final void Function() onSettingsPress;
   final void Function() onInit;
   final void Function(int id) deleteTodo;
+  final void Function(Todo todo) toggleComplete;
   final List<Todo> todos;
 
   TodoListScreen(
       {required this.onSettingsPress,
       required this.onInit,
       required this.deleteTodo,
+      required this.toggleComplete,
       this.todos = const []});
 
   @override
@@ -32,7 +37,16 @@ class _TodoScreenState extends State<TodoListScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('addTodo');
+          showModalBottomSheet(
+              context: context,
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(25))),
+              backgroundColor: Colors.white,
+              builder: (context) => FractionallySizedBox(
+                    heightFactor: 0.8,
+                    child: AddTodoModalContainer(),
+                  ));
         },
         child: const Icon(Icons.add),
       ),
@@ -55,7 +69,9 @@ class _TodoScreenState extends State<TodoListScreen> {
                         title: todo.title,
                         completed: todo.completed,
                         deleteTodo: widget.deleteTodo,
-                        toggleComplete: (_) {}))
+                        toggleComplete: (value) {
+                          widget.toggleComplete(todo);
+                        }))
                     .toList(),
               ),
             )
