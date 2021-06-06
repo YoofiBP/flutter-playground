@@ -66,6 +66,23 @@ class DeleteTodo {
   DeleteTodo({required this.id});
 }
 
+class RequestDeleteTodo {
+  final int id;
+
+  RequestDeleteTodo({required this.id});
+}
+
+class FailedDeleteTodo {}
+
+class RequestUpdateTodo {
+  final int id;
+  final Map<String, dynamic> updateBody;
+
+  RequestUpdateTodo({required this.id, required this.updateBody});
+}
+
+class FailedUpdateTodo {}
+
 class UpdateTodo {
   final int id;
   final Todo updatedTodo;
@@ -78,3 +95,12 @@ class AddTodo {
 
   AddTodo({required this.newTodo});
 }
+
+class RequestAddTodo {
+  final String title;
+  final int userId;
+
+  RequestAddTodo({required this.title, required this.userId});
+}
+
+class FailedAddTodo {}

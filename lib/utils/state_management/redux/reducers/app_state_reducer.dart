@@ -19,5 +19,8 @@ final store =
     Store(appStateReducer, initialState: AppState.initialState(), middleware: [
   navigation.navigationMiddleware,
   fetchTodosMiddleware,
+  saveTodosMiddleware,
+  deleteTodosMiddleware,
+  updateTodosMiddleware
   // logger,
 ]);

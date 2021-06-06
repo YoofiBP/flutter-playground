@@ -16,7 +16,7 @@ class Todo {
   @JsonKey(required: true)
   String title;
 
-  @JsonKey(required: true, defaultValue: false)
+  @JsonKey(defaultValue: false)
   bool completed;
 
   factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);

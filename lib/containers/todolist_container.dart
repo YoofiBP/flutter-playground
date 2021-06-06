@@ -47,10 +47,11 @@ class ViewModel {
         todos: store.state.todos.todos,
         toggleComplete: (todo) {
           todo.toggleComplete();
-          store.dispatch(UpdateTodo(id: todo.id, updatedTodo: todo));
+          store.dispatch(
+              RequestUpdateTodo(id: todo.id, updateBody: todo.toJson()));
         },
         deleteTodo: (id) {
-          store.dispatch(DeleteTodo(id: id));
+          store.dispatch(RequestDeleteTodo(id: id));
         });
   }
 }

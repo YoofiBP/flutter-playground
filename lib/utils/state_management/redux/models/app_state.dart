@@ -3,7 +3,7 @@ import 'todo_state.dart';
 
 class AppState {
   AuthState authState;
-  Todos todos;
+  TodoState todos;
 
   //constructor
   AppState({required this.authState, required this.todos});
@@ -11,9 +11,9 @@ class AppState {
   //named constructor
   AppState.initialState()
       : authState = AuthState.defaultState(),
-        todos = Todos.initialState();
+        todos = TodoState.initialState();
 
-  AppState copyWith({AuthState? authState, Todos? todos}) {
+  AppState copyWith({AuthState? authState, TodoState? todos}) {
     return AppState(
         authState: authState ?? this.authState, todos: todos ?? this.todos);
   }

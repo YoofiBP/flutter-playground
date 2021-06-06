@@ -3,29 +3,40 @@ import 'package:flutter/foundation.dart';
 import '../../../../models/todo.dart';
 import '../../../services/todo_service.dart';
 
-class Todos {
+class TodoState {
   List<Todo> todos;
   bool isFetching;
 
-  Todos({required this.todos, required this.isFetching});
+  TodoState({required this.todos, required this.isFetching});
 
-  Todos.initialState()
+  TodoState.initialState()
       : todos = [],
         isFetching = false;
 
-  Todos copyWith({List<Todo>? todos, bool? isFetching}) => Todos(
+  TodoState copyWith({List<Todo>? todos, bool? isFetching}) => TodoState(
       todos: todos ?? this.todos, isFetching: isFetching ?? this.isFetching);
 
   static Future<List<Todo>> fetchTodos(AbstractTodoService todoService) async {
-    var todos = (await todoService.getTodos());
+    var todos = await todoService.getTodos();
     return compute(parseTodos, todos);
   }
 
-  static deleteTodo() {}
+  static Future<bool> deleteTodo(
+      int id, AbstractTodoService todoService) async {
+    return await todoService.deleteTodo(id);
+  }
 
-  static addTodo() {}
+  static Future<Todo> updateTodo(int id, Map<String, dynamic> update,
+      AbstractTodoService todoService) async {
+    var updatedTodo = await todoService.updateTodo(id, update);
+    return Todo.fromJson(updatedTodo);
+  }
 
-  static markCompleted() {}
+  static Future<Todo> addTodo(
+      String title, int userId, AbstractTodoService todoService) async {
+    var todo = await todoService.postTodo(title, userId);
+    return Todo.fromJson(todo);
+  }
 
   static List<Todo> parseTodos(List<dynamic> todos) {
     return todos.map((todo) => Todo.fromJson(todo)).toList();
