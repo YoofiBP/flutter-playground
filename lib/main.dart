@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'containers/login_container.dart';
 import 'containers/todolist_container.dart';
+import 'models/navigation.dart';
 import 'utils/routing.dart';
 import 'utils/state_management/redux/reducers/app_state_reducer.dart';
-import 'views/screens/login_screen.dart';
 import 'views/screens/settings_screen.dart';
 
 void main() {
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: Routes.home,
         routes: {
-          LoginScreen.routeName: (context) => LoginContainer(),
+          Routes.home: (context) => LoginContainer(),
           Routes.todos: (context) => TodoListContainer(),
           Routes.settings: (context) => SettingsScreen()
         },

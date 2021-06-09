@@ -10,9 +10,19 @@ abstract class AbstractHttpClient {
   Future<dynamic> update(String url, Map<String, dynamic> body) async {}
 }
 
-//TODO: Apply singleton pattern to ensure only one instance
-
 class HttpClient implements AbstractHttpClient {
+  static HttpClient? _instance;
+
+  HttpClient._internal();
+
+  factory HttpClient() {
+    if (_instance == null) {
+      _instance = HttpClient._internal();
+    }
+
+    return _instance as HttpClient;
+  }
+
   final Map<String, String> _headers = {
     'Content-type': 'application/json; charset=UTF-8'
   };

@@ -11,8 +11,6 @@ AppState appStateReducer(AppState state, dynamic action) => AppState(
     authState: authStateReducer(state.authState, action),
     todos: todosReducer(state.todos, action));
 
-Navigation navigation = Navigation();
-
 LoggingMiddleware logger = LoggingMiddleware.printer();
 
 final store =

@@ -5,9 +5,18 @@ import '../utils/state_management/redux/actions/actions.dart';
 import '../utils/state_management/redux/models/app_state.dart';
 
 class Navigation {
+  static Navigation? _instance;
   final GlobalKey<NavigatorState> navigatorKey;
 
-  Navigation() : navigatorKey = GlobalKey<NavigatorState>();
+  Navigation._internal() : navigatorKey = GlobalKey<NavigatorState>();
+
+  factory Navigation() {
+    if (_instance == null) {
+      _instance = Navigation._internal();
+    }
+
+    return _instance as Navigation;
+  }
 
   void navigationMiddleware(
       Store<AppState> store, dynamic action, NextDispatcher next) {
@@ -18,3 +27,5 @@ class Navigation {
     }
   }
 }
+
+Navigation navigation = Navigation();

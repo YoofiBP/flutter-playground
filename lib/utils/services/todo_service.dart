@@ -7,7 +7,6 @@ abstract class AbstractTodoService {
   Future<dynamic> updateTodo(int id, Map<String, dynamic> update);
 }
 
-//TODO: Apply singleton pattern to ensure only one instance
 class HttpTodoService implements AbstractTodoService {
   final AbstractHttpClient client;
 
