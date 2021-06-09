@@ -3,7 +3,16 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-class HttpClient {
+abstract class AbstractHttpClient {
+  Future<dynamic> post(String url, Map<String, dynamic> body) async {}
+  Future<dynamic> get(String url) async {}
+  Future<bool> delete(String url) async => false;
+  Future<dynamic> update(String url, Map<String, dynamic> body) async {}
+}
+
+//TODO: Apply singleton pattern to ensure only one instance
+
+class HttpClient implements AbstractHttpClient {
   final Map<String, String> _headers = {
     'Content-type': 'application/json; charset=UTF-8'
   };
@@ -14,6 +23,7 @@ class HttpClient {
     }
   }
 
+  @override
   Future<dynamic> post(String url, Map<String, dynamic> body) async {
     try {
       var response = await http.post(Uri.parse(url),
@@ -28,6 +38,7 @@ class HttpClient {
     }
   }
 
+  @override
   Future<dynamic> get(String url) async {
     try {
       var response = await http.get(Uri.parse(url), headers: _headers);
@@ -42,6 +53,7 @@ class HttpClient {
     }
   }
 
+  @override
   Future<bool> delete(String url) async {
     try {
       var response = await http.delete(Uri.parse(url), headers: _headers);
@@ -55,6 +67,7 @@ class HttpClient {
     }
   }
 
+  @override
   Future<dynamic> update(String url, Map<String, dynamic> body) async {
     try {
       var response = await http.patch(Uri.parse(url),

@@ -1,18 +1,22 @@
 import '../networking/http_client.dart';
 
 abstract class AbstractTodoService {
-  Future<List<dynamic>> getTodos() async => [];
-  Future<dynamic> postTodo(String title, int userId) async {}
-  Future<bool> deleteTodo(int id) async => false;
-  Future<dynamic> updateTodo(int id, Map<String, dynamic> update) async =>
-      false;
+  Future<List<dynamic>> getTodos();
+  Future<dynamic> postTodo(String title, int userId);
+  Future<bool> deleteTodo(int id);
+  Future<dynamic> updateTodo(int id, Map<String, dynamic> update);
 }
 
+//TODO: Apply singleton pattern to ensure only one instance
 class HttpTodoService implements AbstractTodoService {
+  final AbstractHttpClient client;
+
+  HttpTodoService({required this.client});
+
   @override
   Future<List<dynamic>> getTodos() async {
     try {
-      var todos = await appClient
+      var todos = await client
           .get('https://jsonplaceholder.typicode.com/todos?userId=1');
       return todos;
     } on Exception catch (error) {
@@ -23,7 +27,7 @@ class HttpTodoService implements AbstractTodoService {
 
   Future<dynamic> updateTodo(int id, Map<String, dynamic> update) async {
     try {
-      var updatedTodo = await appClient.update(
+      var updatedTodo = await client.update(
           'https://jsonplaceholder.typicode.com/todos/$id', update);
       return updatedTodo;
     } on Exception catch (_) {
@@ -34,8 +38,7 @@ class HttpTodoService implements AbstractTodoService {
   @override
   Future<dynamic> postTodo(String title, int userId) async {
     try {
-      var todo = await appClient.post(
-          'https://jsonplaceholder.typicode.com/todos',
+      var todo = await client.post('https://jsonplaceholder.typicode.com/todos',
           {'title': title, 'userId': userId});
       return todo;
     } on Exception catch (_) {
@@ -46,8 +49,8 @@ class HttpTodoService implements AbstractTodoService {
   @override
   Future<bool> deleteTodo(int id) async {
     try {
-      var deleted = await appClient
-          .delete('https://jsonplaceholder.typicode.com/todos/$id');
+      var deleted =
+          await client.delete('https://jsonplaceholder.typicode.com/todos/$id');
       return deleted;
     } on Exception catch (_) {
       rethrow;
@@ -55,4 +58,4 @@ class HttpTodoService implements AbstractTodoService {
   }
 }
 
-HttpTodoService httpTodoService = HttpTodoService();
+HttpTodoService httpTodoService = HttpTodoService(client: appClient);

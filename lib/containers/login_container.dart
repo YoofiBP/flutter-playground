@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:new_todo_list/utils/state_management/redux/selectors/selectors.dart';
 import 'package:redux/redux.dart';
 
 import '../utils/auth/auth.dart';
@@ -34,9 +35,9 @@ class ViewModel {
 
   factory ViewModel.create(Store<AppState> store) {
     return ViewModel(
-        isBusy: store.state.authState.isBusy,
-        isLoggedIn: store.state.authState.isLoggedIn,
-        userInfo: store.state.authState.userInfo,
+        isBusy: isBusySelector(store.state),
+        isLoggedIn: isLoggedInSelector(store.state),
+        userInfo: userInfoSelector(store.state),
         loginAction: () async {
           try {
             store.dispatch(SetIsBusy(isBusy: true));

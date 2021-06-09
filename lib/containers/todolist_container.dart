@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:new_todo_list/utils/state_management/redux/selectors/selectors.dart';
 import 'package:redux/redux.dart';
 
 import '../models/todo.dart';
@@ -44,7 +45,7 @@ class ViewModel {
         onInit: () {
           store.dispatch(FetchTodos());
         },
-        todos: store.state.todos.todos,
+        todos: todosSelector(store.state),
         toggleComplete: (todo) {
           todo.toggleComplete();
           store.dispatch(
