@@ -88,6 +88,11 @@ class UpdateTodo {
   final Todo updatedTodo;
 
   UpdateTodo({required this.id, required this.updatedTodo});
+
+  @override
+  String toString() {
+    return 'UpdateTodo: {id: $id, updatedTodo: $updatedTodo}';
+  }
 }
 
 class AddTodo {

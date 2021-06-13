@@ -8,7 +8,7 @@ Reducer<TodoState> todosReducer = combineReducers([
   TypedReducer(receiveTodosReducer),
   TypedReducer(failedTodosReducer),
   TypedReducer(renoveTodoReducer),
-  TypedReducer(toggleTodoCompleteReducer),
+  TypedReducer(updateTodoReducer),
   TypedReducer(addTodoReducer)
 ]);
 
@@ -29,7 +29,7 @@ TodoState renoveTodoReducer(TodoState state, DeleteTodo action) {
       todos: List.from(state.todos.where((todo) => todo.id != action.id)));
 }
 
-TodoState toggleTodoCompleteReducer(TodoState state, UpdateTodo action) {
+TodoState updateTodoReducer(TodoState state, UpdateTodo action) {
   return state.copyWith(
       todos: List.from(state.todos
           .map((todo) => todo.id == action.id ? action.updatedTodo : todo)));

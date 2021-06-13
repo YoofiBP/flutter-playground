@@ -65,11 +65,9 @@ class _TodoScreenState extends State<TodoListScreen> {
               child: ListView(
                 children: widget.todos
                     .map((todo) => TodoItem(
-                        id: todo.id,
-                        title: todo.title,
-                        completed: todo.completed,
+                        todo: todo,
                         deleteTodo: widget.deleteTodo,
-                        toggleComplete: (value) {
+                        updateTodo: (value) {
                           widget.toggleComplete(todo);
                         }))
                     .toList(),
