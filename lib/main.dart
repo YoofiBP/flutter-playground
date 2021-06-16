@@ -8,7 +8,9 @@ import 'containers/todolist_container.dart';
 import 'models/navigation.dart';
 import 'utils/routing.dart';
 import 'utils/state_management/redux/reducers/app_state_reducer.dart';
+import 'views/screens/list_screen.dart';
 import 'views/screens/settings_screen.dart';
+import 'views/screens/signup_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,11 +36,14 @@ class MyApp extends StatelessWidget {
         routes: {
           Routes.home: (context) => LoginContainer(),
           Routes.todos: (context) => TodoListContainer(),
-          Routes.settings: (context) => SettingsScreen()
+          Routes.settings: (context) => SettingsScreen(),
+          Routes.list: (context) => ListScreen(),
+          Routes.signup: (context) => SignUpScreen()
         },
         localizationsDelegates: [
           AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
         ],
         supportedLocales: [const Locale('en'), const Locale('es')],
       ),
