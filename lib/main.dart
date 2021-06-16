@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:new_todo_list/views/screens/hero_screen.dart';
 
 import 'containers/login_container.dart';
 import 'containers/todolist_container.dart';
@@ -38,7 +39,8 @@ class MyApp extends StatelessWidget {
           Routes.todos: (context) => TodoListContainer(),
           Routes.settings: (context) => SettingsScreen(),
           Routes.list: (context) => ListScreen(),
-          Routes.signup: (context) => SignUpScreen()
+          Routes.signup: (context) => SignUpScreen(),
+          HeroScreen.routeName: (context) => HeroScreen()
         },
         localizationsDelegates: [
           AppLocalizations.delegate,

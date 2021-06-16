@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../constants/settings.dart';
 import '../../utils/routing.dart';
+import 'hero_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -26,6 +27,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: e["title"] as String, icon: e["icon"] as IconData))),
               ),
             ),
+            Hero(
+                tag: 'testHero',
+                child: Image.network("https://picsum.photos/200")),
             TextButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(Routes.list);
@@ -33,16 +37,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: Text('Go to Lists')),
             TextButton(
                 onPressed: () {
+                  Navigator.of(context).pushNamed(HeroScreen.routeName,
+                      arguments: HeroArguments(title: "Naa"));
+                },
+                child: Text('Go to Animations')),
+            TextButton(
+                onPressed: () {
                   Navigator.of(context).pushNamed(Routes.signup);
                 },
                 child: Text('Go to Sign Up')),
-            Expanded(
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: List.from(settingsItems.map((e) => SettingsCard(
-                    title: e["title"] as String, icon: e["icon"] as IconData))),
-              ),
-            )
+            TextButton(
+                onPressed: () async {
+                  var result =
+                      await Navigator.pushNamed(context, HeroScreen.routeName);
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('$result')));
+                },
+                child: Text('Get Data From Animation Screen'))
           ],
         ),
       ),

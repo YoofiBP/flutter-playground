@@ -9,6 +9,18 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  late final FocusNode _focusNode;
+
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+    _focusNode.requestFocus();
+  }
+
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
+  }
 
   String userEmail = '';
   Gender? gender;
@@ -26,7 +38,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(),
+                decoration: InputDecoration(
+                  hintText: "Email",
+                ),
                 onChanged: (value) {
                   userEmail = value;
                 },
@@ -36,6 +50,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   }
                   return null;
                 },
+              ),
+              TextField(
+                focusNode: _focusNode,
+                decoration: InputDecoration(labelText: "Enter Search Term"),
               ),
               FormField(
                 builder: (state) {
@@ -133,6 +151,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           )
                         ],
                       )),
+              TextButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                              child: Container(
+                                height: 500,
+                                child: Center(child: Text("this is a modal")),
+                              ),
+                            ));
+                  },
+                  child: Text('Show Dialog')),
               TextButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
