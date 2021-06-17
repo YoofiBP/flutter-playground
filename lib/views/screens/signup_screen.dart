@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_todo_list/views/components/download_button.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -170,7 +171,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SnackBar(content: Text('Processing Data')));
                     }
                   },
-                  child: Text('Submit'))
+                  child: Text('Submit')),
+              DownloadButton(
+                progress: 10,
+                downloadStatus: DownloadStatus.notDownloaded,
+                onCancel: () {},
+                onDownload: () {},
+                onOpen: () {},
+              )
             ],
           ),
         ),
