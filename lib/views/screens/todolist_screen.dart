@@ -1,22 +1,23 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../../containers/add_todo_modal_container.dart';
 import '../../models/todo.dart';
+import '../../utils/state_management/provider/todo_list.dart';
 import '../components/todo_item.dart';
 
 class TodoListScreen extends StatefulWidget {
   final void Function() onSettingsPress;
-  final void Function() onInit;
-  final void Function(int id) deleteTodo;
-  final void Function(Todo todo) toggleComplete;
+  final void Function(Todo todo) deleteTodo;
+  final void Function(Todo todo) updateTodo;
   final List<Todo> todos;
 
   TodoListScreen(
       {required this.onSettingsPress,
-      required this.onInit,
       required this.deleteTodo,
-      required this.toggleComplete,
+      required this.updateTodo,
       this.todos = const []});
 
   @override
@@ -25,12 +26,6 @@ class TodoListScreen extends StatefulWidget {
 
 class _TodoScreenState extends State<TodoListScreen> {
   dynamic myList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    widget.onInit();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,24 +53,26 @@ class _TodoScreenState extends State<TodoListScreen> {
               icon: Icon(Icons.settings), onPressed: widget.onSettingsPress)
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                children: widget.todos
-                    .map((todo) => TodoItem(
-                        todo: todo,
-                        deleteTodo: widget.deleteTodo,
-                        updateTodo: (value) {
-                          widget.toggleComplete(todo);
-                        }))
-                    .toList(),
+      body: Provider.of<TodoListModel>(context).isFetching
+          ? Center(child: CircularProgressIndicator())
+          : SafeArea(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView(
+                      children: widget.todos
+                          .map((todo) => TodoItem(
+                              todo: todo,
+                              deleteTodo: widget.deleteTodo,
+                              updateTodo: (value) {
+                                widget.updateTodo(todo);
+                              }))
+                          .toList(),
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
-      ),
+            ),
     );
   }
 }

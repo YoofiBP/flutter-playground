@@ -2,19 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:new_todo_list/views/screens/hero_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'containers/login_container.dart';
 import 'containers/todolist_container.dart';
 import 'models/navigation.dart';
 import 'utils/routing.dart';
+import 'utils/services/todo_service.dart';
+import 'utils/state_management/provider/todo_list.dart';
 import 'utils/state_management/redux/reducers/app_state_reducer.dart';
+import 'views/screens/hero_screen.dart';
 import 'views/screens/list_screen.dart';
 import 'views/screens/settings_screen.dart';
 import 'views/screens/signup_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(
+      child: MyApp(),
+      create: (context) =>
+          TodoListModel(todoService: httpTodoService)..fetchTodos()));
 }
 
 class MyApp extends StatelessWidget {

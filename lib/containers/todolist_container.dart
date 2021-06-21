@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:provider/provider.dart';
 import 'package:redux/redux.dart';
 
 import '../models/todo.dart';
+import '../utils/routing.dart';
+import '../utils/state_management/provider/todo_list.dart';
 import '../utils/state_management/redux/actions/actions.dart';
 import '../utils/state_management/redux/models/app_state.dart';
 import '../utils/state_management/redux/selectors/selectors.dart';
@@ -11,15 +13,14 @@ import '../views/screens/todolist_screen.dart';
 class TodoListContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ViewModel>(
-        builder: (context, viewModel) => TodoListScreen(
-              onSettingsPress: viewModel.onSettingsPress,
-              onInit: viewModel.onInit,
-              todos: viewModel.todos,
-              deleteTodo: viewModel.deleteTodo,
-              toggleComplete: viewModel.updateTodo,
-            ),
-        converter: (store) => ViewModel.create(store));
+    return Consumer<TodoListModel>(
+        builder: (context, todoList, child) => TodoListScreen(
+            todos: todoList.todos,
+            onSettingsPress: () {
+              Navigator.pushNamed(context, Routes.settings);
+            },
+            deleteTodo: todoList.delete,
+            updateTodo: todoList.update));
   }
 }
 

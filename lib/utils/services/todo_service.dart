@@ -5,12 +5,22 @@ abstract class AbstractTodoService {
   Future<dynamic> postTodo(String title, int userId);
   Future<bool> deleteTodo(int id);
   Future<dynamic> updateTodo(int id, Map<String, dynamic> update);
+  Future<dynamic> saveTodos(List<Map<String, dynamic>> todos);
 }
 
 class HttpTodoService implements AbstractTodoService {
   final AbstractHttpClient client;
 
   HttpTodoService({required this.client});
+
+  @override
+  Future<dynamic> saveTodos(List<Map<String, dynamic>> todos) async {
+    try {
+      await client.post("https://jsonplaceholder.typicode.com/todos", todos);
+    } on Exception catch (error) {
+      print(error);
+    }
+  }
 
   @override
   Future<List<dynamic>> getTodos() async {

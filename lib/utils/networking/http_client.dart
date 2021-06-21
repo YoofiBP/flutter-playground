@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 abstract class AbstractHttpClient {
-  Future<dynamic> post(String url, Map<String, dynamic> body) async {}
+  Future<dynamic> post(String url, dynamic body) async {}
   Future<dynamic> get(String url) async {}
   Future<bool> delete(String url) async => false;
   Future<dynamic> update(String url, Map<String, dynamic> body) async {}
@@ -34,7 +34,7 @@ class HttpClient implements AbstractHttpClient {
   }
 
   @override
-  Future<dynamic> post(String url, Map<String, dynamic> body) async {
+  Future<dynamic> post(String url, dynamic body) async {
     try {
       var response = await http.post(Uri.parse(url),
           body: jsonEncode(body), headers: _headers);

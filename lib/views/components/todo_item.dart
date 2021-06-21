@@ -11,7 +11,7 @@ class TodoItem extends StatefulWidget {
 
   final Todo todo;
   final void Function(Todo) updateTodo;
-  final void Function(int id) deleteTodo;
+  final void Function(Todo todo) deleteTodo;
 
   @override
   _TodoItemState createState() => _TodoItemState();
@@ -67,7 +67,7 @@ class _TodoItemState extends State<TodoItem> {
       trailing: IconButton(
           icon: Icon(Icons.delete_forever_sharp),
           onPressed: () {
-            widget.deleteTodo(widget.todo.id);
+            widget.deleteTodo(widget.todo);
           }),
       title: TextFormField(
         onTap: () {

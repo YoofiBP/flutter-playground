@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_todo_list/views/components/download_button.dart';
+import '../components/download_button.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
