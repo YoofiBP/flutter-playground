@@ -5,7 +5,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:provider/provider.dart';
 
 import 'containers/login_container.dart';
-import 'containers/todolist_container.dart';
 import 'models/navigation.dart';
 import 'utils/routing.dart';
 import 'utils/services/todo_service.dart';
@@ -15,6 +14,7 @@ import 'views/screens/hero_screen.dart';
 import 'views/screens/list_screen.dart';
 import 'views/screens/settings_screen.dart';
 import 'views/screens/signup_screen.dart';
+import 'views/screens/todolist_screen.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -39,10 +39,10 @@ class MyApp extends StatelessWidget {
             style: ElevatedButton.styleFrom(primary: Colors.blue),
           ),
         ),
-        initialRoute: Routes.home,
+        initialRoute: Routes.todos,
         routes: {
           Routes.home: (context) => LoginContainer(),
-          Routes.todos: (context) => TodoListContainer(),
+          Routes.todos: (context) => TodoListScreen(),
           Routes.settings: (context) => SettingsScreen(),
           Routes.list: (context) => ListScreen(),
           Routes.signup: (context) => SignUpScreen(),

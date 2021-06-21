@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +10,7 @@ import '../state_management/redux/actions/actions.dart';
 import '../state_management/redux/reducers/app_state_reducer.dart';
 
 ///Manages App Authentication
-class AppAuth {
+class AppAuth extends ChangeNotifier {
   static const String _AUTH0_DOMAIN = 'dev-zrgm1hwu.us.auth0.com';
   static const String _AUTH0_CLIENT_ID = 'E7HfkbRJu8x2ifiZRokPALXCeaBEi3xy';
 

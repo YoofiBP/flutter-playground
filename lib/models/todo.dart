@@ -7,7 +7,7 @@ class Todo {
   Todo({
     required this.id,
     required this.title,
-    required this.completed,
+    this.completed = false,
   });
 
   @JsonKey(required: true)

@@ -6,7 +6,7 @@ import '../utils/state_management/redux/actions/actions.dart';
 import '../utils/state_management/redux/models/app_state.dart';
 import '../views/components/add_todo_modal.dart';
 
-class AddTodoModalContainer extends StatelessWidget {
+/* class AddTodoModalContainer extends StatelessWidget {
   const AddTodoModalContainer({Key? key}) : super(key: key);
 
   @override
@@ -16,7 +16,7 @@ class AddTodoModalContainer extends StatelessWidget {
             AddTodoModal(saveTodo: viewModel.saveTodo),
         converter: (store) => ViewModel.create(store));
   }
-}
+} */
 
 class ViewModel {
   final void Function(String todoTitle) saveTodo;

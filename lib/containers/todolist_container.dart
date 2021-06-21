@@ -1,16 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:redux/redux.dart';
 
 import '../models/todo.dart';
-import '../utils/routing.dart';
-import '../utils/state_management/provider/todo_list.dart';
 import '../utils/state_management/redux/actions/actions.dart';
 import '../utils/state_management/redux/models/app_state.dart';
 import '../utils/state_management/redux/selectors/selectors.dart';
-import '../views/screens/todolist_screen.dart';
 
-class TodoListContainer extends StatelessWidget {
+/* class TodoListContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<TodoListModel>(
@@ -22,7 +17,7 @@ class TodoListContainer extends StatelessWidget {
             deleteTodo: todoList.delete,
             updateTodo: todoList.update));
   }
-}
+} */
 
 class ViewModel {
   final void Function() onSettingsPress;

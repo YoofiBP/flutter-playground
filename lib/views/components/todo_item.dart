@@ -42,6 +42,7 @@ class _TodoItemState extends State<TodoItem> {
       if (widget.todo.title != title) {
         widget.todo.todoTitle = title;
 
+        print("focus changed");
         //save todo
         widget.updateTodo(widget.todo);
       }

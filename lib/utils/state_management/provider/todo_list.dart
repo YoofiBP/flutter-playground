@@ -14,29 +14,29 @@ class TodoListModel extends ChangeNotifier {
 
   UnmodifiableListView<Todo> get todos => UnmodifiableListView(_todos);
   bool get isFetching => _isFetching;
+  int get nextId => _todos.elementAt(_todos.length - 1).id + 1;
 
   //sync todos with database
   void _saveTodos() {
     todoService.saveTodos(List.from(_todos.map((todo) => todo.toJson())));
   }
 
-  void add(Todo todo) async {
+  void add(Todo todo) {
     _todos.add(todo);
     notifyListeners();
     _saveTodos();
   }
 
-  void delete(Todo todo) async {
+  void delete(Todo todo) {
     _todos.removeWhere((currentTodo) => currentTodo.id == todo.id);
     notifyListeners();
     _saveTodos();
   }
 
-  void update(Todo todo) async {
-    var updatedTodo = await todoService.updateTodo(todo.id, todo.toJson());
+  void update(Todo todo) {
     var oldTodo = _todos.firstWhere((oldTodo) => oldTodo.id == todo.id);
     var replaceIndex = _todos.indexOf(oldTodo);
-    _todos.replaceRange(replaceIndex, replaceIndex + 1, updatedTodo);
+    _todos.replaceRange(replaceIndex, replaceIndex + 1, [todo]);
     notifyListeners();
     _saveTodos();
   }
@@ -49,7 +49,6 @@ class TodoListModel extends ChangeNotifier {
       var todos = await todoService.getTodos();
       _todos.addAll(parseTodos(todos));
       _isFetching = false;
-      print('Todos fetched');
       notifyListeners();
     } on Exception catch (_) {
       _isFetching = false;
