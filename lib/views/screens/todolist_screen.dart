@@ -13,6 +13,8 @@ class TodoListScreen extends StatelessWidget {
     Navigator.pushNamed(context, Routes.settings);
   }
 
+  final GlobalKey _draggableKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,12 +54,21 @@ class TodoListScreen extends StatelessWidget {
                       builder: (context, todoListModel, child) =>
                           ListView.builder(
                               itemCount: todoListModel.todos.length,
-                              itemBuilder: (context, index) => TodoItem(
-                                  key: Key(
-                                      todoListModel.todos[index].id.toString()),
-                                  todo: todoListModel.todos[index],
-                                  deleteTodo: todoListModel.delete,
-                                  updateTodo: todoListModel.update)),
+                              itemBuilder: (context, index) =>
+                                  LongPressDraggable(
+                                    data: todoListModel.todos[index],
+                                    dragAnchor: DragAnchor.pointer,
+                                    feedback: DraggableListItem(
+                                      key: _draggableKey,
+                                      title: todoListModel.todos[index].title,
+                                    ),
+                                    child: TodoItem(
+                                        key: Key(todoListModel.todos[index].id
+                                            .toString()),
+                                        todo: todoListModel.todos[index],
+                                        deleteTodo: todoListModel.delete,
+                                        updateTodo: todoListModel.update),
+                                  )),
                     ),
                   )
                 ],

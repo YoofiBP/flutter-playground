@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 import '../../models/todo.dart';
 
+class DraggableListItem extends StatelessWidget {
+  const DraggableListItem({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: ListTile(
+        title: Text(title),
+      ),
+    );
+  }
+}
+
 class TodoItem extends StatefulWidget {
   const TodoItem(
       {Key? key,
@@ -57,20 +72,28 @@ class _TodoItemState extends State<TodoItem> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Checkbox(
-        value: widget.todo.completed,
-        onChanged: (_) {
-          widget.todo.toggleComplete();
-          widget.updateTodo(widget.todo);
-        },
+    return Material(
+      child: ListTile(
+        leading: Checkbox(
+          value: widget.todo.completed,
+          onChanged: (_) {
+            widget.todo.toggleComplete();
+            widget.updateTodo(widget.todo);
+          },
+        ),
+        trailing: IconButton(
+            icon: Icon(Icons.delete_forever_sharp),
+            onPressed: () {
+              widget.deleteTodo(widget.todo);
+            }),
+        title: Text(widget.todo.title),
       ),
-      trailing: IconButton(
-          icon: Icon(Icons.delete_forever_sharp),
-          onPressed: () {
-            widget.deleteTodo(widget.todo);
-          }),
-      title: TextFormField(
+    );
+  }
+}
+
+
+/* final Widget formField = TextFormField(
         onTap: () {
           setState(() {
             isEditing = true;
@@ -91,7 +114,4 @@ class _TodoItemState extends State<TodoItem> {
                         color: Colors.black))
                 : InputBorder.none),
         style: TextStyle(fontSize: 20),
-      ),
-    );
-  }
-}
+      ) */
