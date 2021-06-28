@@ -21,18 +21,53 @@ class _NestNavigationScreenState extends State<NestNavigationScreen> {
     _navigatorKey.currentState!.pushNamed('/dummy');
   }
 
+  bool shouldPop = false;
+  String title = "Default route";
+
+  Future<bool> _onRequestExit() async {
+    var result = await showDialog(
+        context: context,
+        builder: (context) => SimpleDialog(
+              title: Text('Are you sure you want to exit?'),
+              children: [
+                SimpleDialogOption(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: const Text('Yes'),
+                ),
+                SimpleDialogOption(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: const Text('No'),
+                )
+              ],
+            ));
+    return result;
+  }
+
+  PreferredSizeWidget _buildAppBar() => AppBar(
+        title: Text(title),
+      );
+
   Route<dynamic>? _onGenerateRoute(RouteSettings settings) {
     if (settings.name == '/dummy') {
+      setState(() {
+        title = 'Dummy Route';
+      });
       return MaterialPageRoute(
           builder: (context) => Scaffold(
-                appBar: AppBar(
-                  title: Text('Dummy Route'),
-                ),
                 body: Column(
                   children: [
                     TextButton(
                         onPressed: _navigateToDefault,
-                        child: Text('Navigate to Default'))
+                        child: Text('Navigate to Default')),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Pop'))
                   ],
                 ),
               ));
@@ -40,14 +75,11 @@ class _NestNavigationScreenState extends State<NestNavigationScreen> {
     if (settings.name == '/home') {
       return MaterialPageRoute(
           builder: (context) => Scaffold(
-                appBar: AppBar(
-                  title: Text('Default Route'),
-                ),
                 body: Column(
                   children: [
                     TextButton(
                         onPressed: _navigateToDummy,
-                        child: Text('Navigate to Dummy'))
+                        child: Text('Navigate to Dummy')),
                   ],
                 ),
               ));
@@ -56,10 +88,16 @@ class _NestNavigationScreenState extends State<NestNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      key: _navigatorKey,
-      onGenerateRoute: _onGenerateRoute,
-      initialRoute: widget.route,
+    return WillPopScope(
+      onWillPop: _onRequestExit,
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: Navigator(
+          key: _navigatorKey,
+          onGenerateRoute: _onGenerateRoute,
+          initialRoute: widget.route,
+        ),
+      ),
     );
   }
 }

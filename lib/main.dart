@@ -55,7 +55,6 @@ class MyApp extends StatelessWidget {
                 builder: (context) => SettingsScreen(), settings: settings);
           }
           if (settings.name!.startsWith(Routes.defaultRoute)) {
-            print(settings.name);
             final subRoute =
                 settings.name!.substring(Routes.defaultRoute.length);
             return MaterialPageRoute(
