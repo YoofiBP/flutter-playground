@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:new_todo_list/utils/state_management/riverpod/todolistscreen.dart';
+import 'package:new_todo_list/views/screens/nested_navigation_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'containers/login_container.dart';
@@ -19,8 +20,14 @@ import 'views/screens/signup_screen.dart';
 import 'views/screens/todolist_screen.dart';
 
 void main() {
-  runApp(ProviderScope(child: MyApp()));
+  runApp(ChangeNotifierProvider(
+    child: MyApp(),
+    create: (context) =>
+        TodoListModel(todoService: httpTodoService)..fetchTodos(),
+  ));
 }
+
+// runApp(ProviderScope(child: MyApp()));
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -38,15 +45,23 @@ class MyApp extends StatelessWidget {
             style: ElevatedButton.styleFrom(primary: Colors.blue),
           ),
         ),
-        initialRoute: TodoNewScreen.routeName,
-        routes: {
-          Routes.home: (context) => LoginContainer(),
-          Routes.todos: (context) => TodoListScreen(),
-          Routes.settings: (context) => SettingsScreen(),
-          Routes.list: (context) => ListScreen(),
-          Routes.signup: (context) => SignUpScreen(),
-          HeroScreen.routeName: (context) => HeroScreen(),
-          TodoNewScreen.routeName: (context) => TodoNewScreen()
+        initialRoute: Routes.settings,
+        onGenerateRoute: (settings) {
+          if (settings.name! == '/') {
+            MaterialPageRoute(builder: (context) => TodoListScreen());
+          }
+          if (settings.name! == '/settings') {
+            return MaterialPageRoute(
+                builder: (context) => SettingsScreen(), settings: settings);
+          }
+          if (settings.name!.startsWith(Routes.defaultRoute)) {
+            print(settings.name);
+            final subRoute =
+                settings.name!.substring(Routes.defaultRoute.length);
+            return MaterialPageRoute(
+                builder: (context) => NestNavigationScreen(route: subRoute),
+                settings: settings);
+          }
         },
         localizationsDelegates: [
           AppLocalizations.delegate,
@@ -58,3 +73,13 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+     /* routes: {
+          Routes.home: (context) => LoginContainer(),
+          Routes.todos: (context) => TodoListScreen(),
+          Routes.settings: (context) => SettingsScreen(),
+          Routes.list: (context) => ListScreen(),
+          Routes.signup: (context) => SignUpScreen(),
+          HeroScreen.routeName: (context) => HeroScreen(),
+          TodoNewScreen.routeName: (context) => TodoNewScreen()
+        }, */
