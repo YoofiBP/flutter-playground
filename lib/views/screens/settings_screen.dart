@@ -32,9 +32,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Navigator.of(context).pushNamed(Routes.dummyHome);
                 },
                 child: Text('Go to Default')),
-            /* Hero(
+            Hero(
                 tag: 'testHero',
-                child: Image.network("https://picsum.photos/200")), */
+                child: Image.network("https://picsum.photos/200")),
             TextButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(Routes.list);
